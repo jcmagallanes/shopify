@@ -1,0 +1,253 @@
+<style>
+.xmas-hero {
+  position: relative !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  text-align: left !important;
+}
+
+.xmas-hero img {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+  position: relative !important;
+  display: block !important;
+}
+
+.xmas-hero img.mobile-img {
+  display: none !important;
+}
+
+{% comment %} .xmas-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(to right, rgba(0,0,0,0.55), rgba(0,0,0,0.10)) !important;
+} {% endcomment %}
+
+/* Full-cover invisible link overlay */
+.xmas-hero-image-link {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  display: block !important;
+}
+
+/* Make sure content sits above the link overlay */
+.xmas-hero-content {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  padding: 5vw !important;
+  max-width: 580px !important;
+  color: #fff !important;
+  z-index: 2 !important; /* Add this */
+}
+
+.xmas-hero-content h2,
+.xmas-hero-content h1 {
+  font-size: clamp(22px, 3.5vw, 40px) !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  margin-bottom: 10px !important;
+  text-align: left !important;
+}
+
+.xmas-hero-content p,
+.xmas-hero-content li {
+  font-size: clamp(10px, 1.8vw, 14px) !important;
+  line-height: 1.38 !important;
+  margin-bottom: 6px !important;
+}
+
+.xmas-hero-content ul {
+  list-style: disc !important;
+  padding-left: 22px !important;
+  margin: 10px 0 !important;
+}
+
+.xmas-hero-content li {
+  display: list-item !important;
+}
+
+.xmas-btn {
+  display: inline-block !important;
+  margin-top: 20px !important;
+  text-decoration: none !important;
+  border-style: solid !important;
+  transition: all .25s ease !important;
+}
+
+.zrx-sticky-atc-bar{ display: none; }
+
+@media (max-width: 768px) {
+  .xmas-hero img.desktop-img {
+    display: none !important;
+  }
+ .xmas-hero img.mobile-img {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    position: relative !important;
+  }
+  .xmas-hero {
+    height: auto !important;
+    min-height: unset !important;
+  }
+  .xmas-overlay {
+    background: linear-gradient(to right, rgba(0,0,0,0.55), rgba(0,0,0,0.18)) !important;
+  }
+  .xmas-hero-content {
+    max-width: 95% !important;
+  }
+  .xmas-hero-content h2,
+  .xmas-hero-content h1 {
+    font-size: 18px !important;
+  }
+  .xmas-hero-content p,
+  .xmas-hero-content li {
+    font-size: 12px !important;
+  }
+}
+</style>
+
+{% render 'foxsell-bundle-override' %}
+
+{% assign hero_link = section.settings.image_link %}
+
+<section class="xmas-hero">
+  {% render 'foxsell-bundle-override' %}
+
+  {% if section.settings.image %}
+    <img src="{{ section.settings.image | image_url: width: 2000 }}" class="desktop-img" alt="">
+  {% endif %}
+
+  {% if section.settings.image_mobile %}
+    <img src="{{ section.settings.image_mobile | image_url: width: 900 }}" class="mobile-img" alt="">
+  {% endif %}
+
+  {% if hero_link != blank %}
+    <a href="{{ hero_link }}" class="xmas-hero-image-link" aria-label="Hero banner link"></a>
+  {% endif %}
+
+  <div class="xmas-overlay"></div>
+
+  <div class="xmas-hero-content">
+    {{ section.settings.custom_html }}
+
+    {% if section.settings.button_text != blank %}
+      <a 
+        href="{{ section.settings.button_link }}" 
+        class="xmas-btn"
+        style="
+          border-color: {{ section.settings.button_outline_color }};
+          color: {{ section.settings.button_text_color }};
+          border-radius: {{ section.settings.button_radius }}px;
+          padding: {{ section.settings.button_padding }};
+          font-size: {{ section.settings.button_font_size }}px;
+          border-width: {{ section.settings.button_border_width }}px;
+        "
+        onmouseover="this.style.borderColor='{{ section.settings.button_hover_color }}'; this.style.color='{{ section.settings.button_hover_color }}'"
+        onmouseout="this.style.borderColor='{{ section.settings.button_outline_color }}'; this.style.color='{{ section.settings.button_text_color }}'"
+      >
+        {{ section.settings.button_text }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Remodified Hero Image",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Background Image"
+    },
+    {
+      "type": "html",
+      "id": "custom_html",
+      "label": "Content HTML",
+      "default": "<h2>GETTING A SAUNA FOR CHRISTMAS?</h2><p>Order now to guarantee pre-Christmas delivery</p><ul><li><strong>NSW & VIC:</strong> Friday 19th</li><li><strong>Sunshine Coast → Brisbane → Gold Coast → Byron Bay:</strong> Midday Monday 22nd</li><li><strong>TAS, SA & North QLD:</strong> Monday 15th</li><li><strong>WA:</strong> Friday 12th</li></ul><p>Don't miss out – secure yours before the cut-off!</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "color",
+      "id": "button_outline_color",
+      "label": "Outline Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Hover Color",
+      "default": "#FF0000"
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 2,
+      "label": "Border Thickness (px)"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 8,
+      "label": "Button Border Radius"
+    },
+    {
+      "type": "text",
+      "id": "button_padding",
+      "label": "Button Padding",
+      "default": "12px 28px"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "default": 16,
+      "label": "Button Font Size (px)"
+    },
+    {
+        "type": "url",
+        "id": "image_link",
+        "label": "Hero Image Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Remodified Hero Image"
+    }
+  ]
+}
+{% endschema %}
