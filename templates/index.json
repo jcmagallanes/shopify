@@ -280,10 +280,27 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "gift_card_3GVRiw": {
+      "type": "gift-card",
+      "name": "Gift Registry",
+      "settings": {
+        "heading": "One Pod, From All Of Us",
+        "description": "Help friends and family contribute towards one meaningful gift.",
+        "product_title": "Nüdel Vivid Bundle",
+        "currency": "A$",
+        "goal_amount": 548,
+        "raised_amount": 360,
+        "family_count": 3,
+        "button25_url": "",
+        "button50_url": "",
+        "button100_url": ""
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "product_list_fa6P9H",
+    "gift_card_3GVRiw"
   ]
 }
