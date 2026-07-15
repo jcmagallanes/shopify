@@ -1,186 +1,603 @@
-{{ 'gift-registry.css' | asset_url | stylesheet_tag }}
+{% liquid
+  assign percent = section.settings.raised_amount | times: 100.0 | divided_by: section.settings.goal_amount
 
-<section class="gift-registry">
+  if percent > 100
+    assign percent = 100
+  endif
+%}
 
-  <div class="page-width">
+<section class="gift-registry-section">
 
-    <div class="gift-registry__content">
+<div class="gift-wrapper">
 
-      <div class="gift-registry__text">
+<div class="gift-left">
 
-        {% if section.settings.badge != blank %}
-          <span class="gift-registry__badge">
-            {{ section.settings.badge }}
-          </span>
-        {% endif %}
+{% if section.settings.product_image %}
+<img
+class="gift-product-image"
+src="{{ section.settings.product_image | image_url: width: 900 }}"
+alt="{{ section.settings.product_title }}"
+loading="lazy">
+{% endif %}
 
-        <h2>{{ section.settings.heading }}</h2>
+<h2>{{ section.settings.product_title }}</h2>
 
-        <div class="gift-registry__description">
-          {{ section.settings.description }}
-        </div>
+<div class="gift-price">
 
-        <ul class="gift-registry__features">
+{{ section.settings.currency }}
 
-          {% for block in section.blocks %}
-
-            {% if block.type == 'feature' %}
-
-              <li>
-                ✓ {{ block.settings.text }}
-              </li>
-
-            {% endif %}
-
-          {% endfor %}
-
-        </ul>
-
-        <button
-          class="button button--primary"
-          id="openRegistryModal">
-
-          {{ section.settings.button_label }}
-
-        </button>
-
-      </div>
-
-      <div class="gift-registry__image">
-
-        {% if section.settings.image %}
-
-          {{
-            section.settings.image
-            | image_url: width:900
-            | image_tag
-          }}
-
-        {% endif %}
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<div id="registry-modal" class="registry-modal">
-
-  <div class="registry-modal__content">
-
-    <button class="registry-modal__close">
-      ×
-    </button>
-
-    <h3>Create Your Registry</h3>
-
-    <form id="registry-form">
-
-      <label>Name</label>
-
-      <input
-        type="text"
-        name="name"
-        required>
-
-      <label>Email</label>
-
-      <input
-        type="email"
-        name="email"
-        required>
-
-      <label>Photo (optional)</label>
-
-      <input
-        type="file"
-        name="photo">
-
-      <label>Registry Type</label>
-
-      <select name="occasion">
-
-        <option>Birthday</option>
-
-        <option>Christmas</option>
-
-        <option>Wedding</option>
-
-        <option>Baby Shower</option>
-
-        <option>Graduation</option>
-
-        <option>Custom</option>
-
-      </select>
-
-      <label>Registry Title</label>
-
-      <input
-        type="text"
-        name="title">
-
-      <label>Description</label>
-
-      <textarea
-        name="description"></textarea>
-
-      <button
-        class="button button--primary">
-
-        Create Registry
-
-      </button>
-
-    </form>
-
-  </div>
+{{ section.settings.goal_amount }}
 
 </div>
 
+</div>
+
+<div class="gift-right">
+
+<h1>{{ section.settings.heading }}</h1>
+
+<p class="gift-description">
+{{ section.settings.description }}
+</p>
+
+<div class="gift-raised">
+
+<div>
+
+<span class="money">
+
+{{ section.settings.currency }}
+
+{{ section.settings.raised_amount }}
+
+</span>
+
+<div class="small-label">
+
+raised
+
+</div>
+
+</div>
+
+<div class="divider"></div>
+
+<div>
+
+<span class="money">
+
+of
+
+{{ section.settings.currency }}
+
+{{ section.settings.goal_amount }}
+
+</span>
+
+<div class="small-label">
+
+goal
+
+</div>
+
+</div>
+
+</div>
+
+<div class="gift-progress-card">
+
+<div class="progress-percent">
+
+{{ percent | round }}% funded
+
+</div>
+
+<div class="progress">
+
+<div
+class="progress-fill"
+style="width:{{ percent }}%;"></div>
+
+</div>
+
+<div class="progress-labels">
+
+<span>0%</span>
+
+<span>100%</span>
+
+</div>
+
+</div>
+
+<div class="family-box">
+
+<div class="family-icon">
+
+👨‍👩‍👧‍👦
+
+</div>
+
+<div>
+
+<strong>
+
+{{ section.settings.family_count }}
+
+family members
+
+</strong>
+
+<br>
+
+have added their piece.
+
+</div>
+
+</div>
+
+<div class="contribute-title">
+
+Add Your Piece
+
+</div>
+
+<div class="button-grid">
+
+<a
+href="{{ section.settings.button25_url }}"
+class="gift-btn">
+
+{{ section.settings.currency }}25
+
+</a>
+
+<a
+href="{{ section.settings.button50_url }}"
+class="gift-btn">
+
+{{ section.settings.currency }}50
+
+</a>
+
+<a
+href="{{ section.settings.button100_url }}"
+class="gift-btn">
+
+{{ section.settings.currency }}100
+
+</a>
+
+<button
+type="button"
+class="gift-btn custom-button">
+
+Custom
+
+</button>
+
+</div>
+
+<div
+class="custom-popup"
+id="GiftCustomPopup">
+
+<div class="popup-inner">
+
+<h3>
+
+Custom Contribution
+
+</h3>
+
+<input
+type="number"
+id="GiftCustomAmount"
+placeholder="Enter amount">
+
+<button
+id="GiftContinue">
+
+Continue
+
+</button>
+
+<button
+id="GiftClose">
+
+Close
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<style>
+
+.gift-registry-section{
+
+padding:80px 20px;
+
+background:#fafafa;
+
+}
+
+.gift-wrapper{
+
+max-width:1300px;
+
+margin:auto;
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:60px;
+
+align-items:center;
+
+}
+
+.gift-left{
+
+text-align:center;
+
+}
+
+.gift-product-image{
+
+width:100%;
+
+border-radius:18px;
+
+display:block;
+
+}
+
+.gift-left h2{
+
+margin-top:25px;
+
+font-size:42px;
+
+}
+
+.gift-price{
+
+font-size:34px;
+
+font-weight:700;
+
+margin-top:8px;
+
+}
+
+.gift-right h1{
+
+font-size:56px;
+
+line-height:1.1;
+
+margin-bottom:15px;
+
+}
+
+.gift-description{
+
+font-size:22px;
+
+margin-bottom:35px;
+
+color:#666;
+
+}
+
+.gift-raised{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:40px;
+
+margin-bottom:35px;
+
+}
+
+.money{
+
+font-size:50px;
+
+font-weight:700;
+
+}
+
+.divider{
+
+width:1px;
+
+height:80px;
+
+background:#ddd;
+
+}
+
+.small-label{
+
+font-size:18px;
+
+color:#777;
+
+text-align:center;
+
+}
+
+.gift-progress-card{
+
+background:white;
+
+padding:30px;
+
+border-radius:20px;
+
+box-shadow:0 8px 30px rgba(0,0,0,.08);
+
+}
+
+.progress-percent{
+
+text-align:center;
+
+font-size:44px;
+
+font-weight:700;
+
+margin-bottom:20px;
+
+}
+
+.progress{
+
+height:28px;
+
+background:#ececec;
+
+border-radius:50px;
+
+overflow:hidden;
+
+}
+
+.progress-fill{
+
+height:100%;
+
+background:#7d5a82;
+
+transition:.5s;
+
+}
+
+.progress-labels{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-top:12px;
+
+font-weight:600;
+
+}
+
+.family-box{
+
+margin-top:30px;
+
+display:flex;
+
+gap:18px;
+
+padding:20px;
+
+border:1px solid #eee;
+
+border-radius:14px;
+
+align-items:center;
+
+}
+
+.family-icon{
+
+font-size:34px;
+
+}
+
+.contribute-title{
+
+margin:35px 0 20px;
+
+font-size:30px;
+
+font-weight:700;
+
+text-align:center;
+
+}
+
+.button-grid{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:18px;
+
+}
+
+.gift-btn{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+padding:18px;
+
+border:2px solid #6f4d72;
+
+border-radius:14px;
+
+text-decoration:none;
+
+font-size:24px;
+
+font-weight:700;
+
+color:#6f4d72;
+
+background:white;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.gift-btn:hover{
+
+background:#6f4d72;
+
+color:white;
+
+}
+
+.custom-popup{
+
+display:none;
+
+position:fixed;
+
+left:0;
+
+top:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,.5);
+
+z-index:999;
+
+}
+
+.popup-inner{
+
+background:white;
+
+padding:30px;
+
+border-radius:16px;
+
+max-width:420px;
+
+margin:150px auto;
+
+}
+
+.popup-inner input{
+
+width:100%;
+
+padding:14px;
+
+margin:20px 0;
+
+}
+
+.popup-inner button{
+
+width:100%;
+
+padding:16px;
+
+margin-bottom:10px;
+
+}
+
+@media(max-width:900px){
+
+.gift-wrapper{
+
+grid-template-columns:1fr;
+
+}
+
+.button-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+.gift-right h1{
+
+font-size:40px;
+
+}
+
+.money{
+
+font-size:36px;
+
+}
+
+}
+
+</style>
+
 <script>
 
-document.querySelector('#openRegistryModal')
-?.addEventListener('click', () => {
+document.addEventListener("DOMContentLoaded",()=>{
 
-    document
-      .querySelector('#registry-modal')
-      .classList.add('active')
+const popup=document.getElementById("GiftCustomPopup");
 
-})
+document.querySelector(".custom-button").onclick=()=>{
 
-document.querySelector('.registry-modal__close')
-?.addEventListener('click', () => {
+popup.style.display="block";
 
-    document
-      .querySelector('#registry-modal')
-      .classList.remove('active')
+};
 
-})
+document.getElementById("GiftClose").onclick=()=>{
 
-document
-.querySelector('#registry-form')
-?.addEventListener('submit', async(e)=>{
+popup.style.display="none";
 
-    e.preventDefault()
+};
 
-    const form = new FormData(e.target)
+document.getElementById("GiftContinue").onclick=()=>{
 
-    const response = await fetch(
-      "https://YOUR-APP/create-registry",
-      {
-        method:"POST",
-        body:form
-      }
-    )
+const amount=document.getElementById("GiftCustomAmount").value;
 
-    const registry = await response.json()
+if(amount){
 
-    window.location.href = registry.url
+window.location="/pages/create-registry?amount="+amount;
 
-})
+}
+
+};
+
+});
 
 </script>
 
