@@ -604,105 +604,79 @@ window.location="/pages/create-registry?amount="+amount;
 {% schema %}
 {
   "name": "Gift Registry",
-
-  "settings":[
-
+  "tag": "section",
+  "class": "gift-registry",
+  "settings": [
     {
-      "type":"text",
-      "id":"badge",
-      "label":"Badge",
-      "default":"NEW"
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "One Pod, From All Of Us"
     },
-
     {
-      "type":"text",
-      "id":"heading",
-      "label":"Heading",
-      "default":"Create a Gift Registry"
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Help friends and family contribute towards one meaningful gift."
     },
-
     {
-      "type":"richtext",
-      "id":"description",
-      "label":"Description",
-      "default":"<p>Create your own birthday, Christmas or wedding registry and let friends contribute toward the gifts you really want.</p>"
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product Image"
     },
-
     {
-      "type":"text",
-      "id":"button_label",
-      "label":"Button Label",
-      "default":"Start Your Registry"
+      "type": "text",
+      "id": "product_title",
+      "label": "Product Title",
+      "default": "Nüdel Vivid Bundle"
     },
-
     {
-      "type":"image_picker",
-      "id":"image",
-      "label":"Image"
+      "type": "text",
+      "id": "currency",
+      "label": "Currency Symbol",
+      "default": "A$"
+    },
+    {
+  "type": "number",
+  "id": "goal_amount",
+  "label": "Goal Amount",
+  "default": 548
+},
+{
+  "type": "number",
+  "id": "raised_amount",
+  "label": "Raised Amount",
+  "default": 360
+},
+    {
+      "type": "range",
+      "id": "family_count",
+      "label": "Family Members",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "url",
+      "id": "button25_url",
+      "label": "A$25 Button URL"
+    },
+    {
+      "type": "url",
+      "id": "button50_url",
+      "label": "A$50 Button URL"
+    },
+    {
+      "type": "url",
+      "id": "button100_url",
+      "label": "A$100 Button URL"
     }
-
   ],
-
-  "blocks":[
-
+  "presets": [
     {
-      "type":"feature",
-      "name":"Feature",
-
-      "settings":[
-
-        {
-          "type":"text",
-          "id":"text",
-          "label":"Feature"
-        }
-
-      ]
-
+      "name": "Gift Registry"
     }
-
-  ],
-
-  "presets":[
-
-    {
-      "name":"Gift Registry",
-
-      "blocks":[
-
-        {
-          "type":"feature",
-          "settings":{
-            "text":"Create your own personalised registry"
-          }
-        },
-
-        {
-          "type":"feature",
-          "settings":{
-            "text":"Share a unique link with friends and family"
-          }
-        },
-
-        {
-          "type":"feature",
-          "settings":{
-            "text":"Track contributions in real time"
-          }
-        },
-
-        {
-          "type":"feature",
-          "settings":{
-            "text":"Fund premium ride-on toys together"
-          }
-        }
-
-      ]
-
-    }
-
   ]
-
 }
 {% endschema %}
